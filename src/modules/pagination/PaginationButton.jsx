@@ -1,10 +1,13 @@
 import ReactPaginate from "react-paginate";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { motion } from "framer-motion";
-const PaginationButtons = ({ setCurrentPage, currentPage, totalPages }) => {
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+
+const PaginationButtons = ({
+  handlePageClick,
+  currentPage,
+  totalPages,
+  forcePage = 1,
+}) => {
   const paginationVariants = {
     hidden: {
       opacity: 0,
@@ -38,7 +41,7 @@ const PaginationButtons = ({ setCurrentPage, currentPage, totalPages }) => {
             </span>
           ) : null
         }
-        initialPage={currentPage}
+        forcePage={forcePage}
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         pageCount={totalPages}

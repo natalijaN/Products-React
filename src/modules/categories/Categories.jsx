@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import Button from "../../components/Button";
+import { GlobalContext } from "../../context/GlobalContext";
 
-const Categories = ({ filterCategories }) => {
+const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const { selectedCategory, changeCategory, changePage } =
+    useContext(GlobalContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -34,33 +38,40 @@ const Categories = ({ filterCategories }) => {
           : { ...category, selected: false };
       })
     );
-    filterCategories(selectedCategory);
+    const category = categories.filter((category) => {
+      return category.name === selectedCategory.name;
+    });
+
+    changeCategory(category);
+    changePage(0);
   };
 
   const productsCategories =
     categories &&
     categories.map((category, i) => {
-      const isCategorySelected = category.selected ? "selected" : "";
+      let categorySelectedClass = "";
+      if (category.name === selectedCategory.name) {
+        categorySelectedClass = "selected";
+      }
       return (
-        <button
+        <Button
           key={i}
           onClick={() => handleCategoryClick(category)}
-          selected
-          className={`${isCategorySelected} category inline-block mr-8 bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded text-xs hover:bg-gray-700`}
+          extraClass={`${categorySelectedClass} category inline-block mr-8 bg-gray-500 hover:bg-gray-700 py-2 px-4 text-xs`}
         >
           {category.name}
-        </button>
+        </Button>
       );
     });
 
   return (
-    <div>
+    <>
       {categories ? (
         <div className="inline-block whitespace-nowrap overflow-x-scroll justify-center items-center h-14 w-full">
           {productsCategories}
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 

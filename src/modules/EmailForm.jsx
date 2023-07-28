@@ -1,6 +1,12 @@
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { useForm } from "react-hook-form";
+import Button from "../components/Button";
+import Text from "../components/Text";
+import Container from "../components/Container";
+import Label from "../components/Label";
+import Input from "../components/Input";
+import Textarea from "../components/Textarea";
 
 const EmailForm = () => {
   const {
@@ -12,7 +18,6 @@ const EmailForm = () => {
 
   const sendEmail = (data, e) => {
     e.preventDefault();
-    console.log(data);
     emailjs
       .sendForm(
         "service_lnurr49",
@@ -35,31 +40,31 @@ const EmailForm = () => {
   return (
     <div className="w-2/5">
       <form ref={form} onSubmit={handleSubmit(sendEmail)}>
-        {/* <form ref={form} onSubmit={sendEmail} onSubmit={handleSubmit(handleRegistration)}> */}
-        <label>Name</label>
-        <input
+        <Label>Name</Label>
+        <Input
           type="text"
           name="user_name"
-          className="border-solid border-2 border-gray-800"
           {...register("name", { required: "Name is required" })}
         />
         {errors?.name && errors.name.message}
-        <label>E-mail</label>
-        <input
+        <Label>E-mail</Label>
+        <Input
           type="email"
           name="user_email"
-          className="border-solid border-2 border-gray-800"
-          {...register("email", { required: "E-mail is required" })}
+          {...register("name", { required: "Name is required" })}
         />
         {errors?.email && errors.email.message}
-        <label>Message</label>
-        <textarea
+        <Label>Message</Label>
+        <Textarea
           name="message"
-          className="border-solid border-2 border-gray-800"
           {...register("message", { required: "Message is required" })}
         />
         {errors?.message && errors.message.message}
-        <input type="submit" value="Send" />
+        <Container extraClass="items-center w-full mt-1">
+          <Button type="submit" extraClass="bg-gray-500 p-1 rounded">
+            <Text>Send</Text>
+          </Button>
+        </Container>
       </form>
     </div>
   );
